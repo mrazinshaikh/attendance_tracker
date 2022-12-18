@@ -16,7 +16,6 @@
 `php artisan ide-helper:models` 
 
 
-
 # Default
 
 ## About Laravel
