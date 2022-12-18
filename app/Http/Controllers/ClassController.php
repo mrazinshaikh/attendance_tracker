@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classes;
 use App\Models\Log;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ClassController extends Controller
 {
@@ -15,7 +16,11 @@ class ClassController extends Controller
      */
     public function index()
     {
-        return Classes::all();
+        $lists = Classes::paginate(5);
+
+        return Inertia::render('Home/index', [
+            'classes' => $lists,
+        ]);
     }
 
     /**
