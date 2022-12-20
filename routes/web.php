@@ -36,5 +36,6 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::resource('/', ClassController::class);
+    Route::get('/',[ClassController::class,'index'])->name('classes.index');
+    Route::put('/{classes}',[ClassController::class,'update'])->name('classes.update');
 });

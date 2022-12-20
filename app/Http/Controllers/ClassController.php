@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classes;
 use App\Models\Log;
+use DateTime;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,7 +17,10 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $lists = Classes::paginate(5);
+        $lists = Classes::with(['logs' => function($query) {
+            /** @var \Illuminate\Database\Eloquent\Builder $query */
+            return $query->select('id','class_id')->whereNull('end_time');
+        }])->paginate(5);
 
         return Inertia::render('Home/index', [
             'classes' => $lists,
@@ -75,7 +79,20 @@ class ClassController extends Controller
      */
     public function update(Request $request, Classes $classes)
     {
-        //
+        switch($request->get('action')){
+            case 'login':
+                $log = new Log();
+                $classes->logs()->create([$log]);
+                $classes->save();
+                break;
+            case 'logoff':
+                /** @var Log $logs */
+                $logs = $classes->logs()->whereNull('end_time')->firstOrFail();
+                $logs->end_time = new DateTime();
+                $logs = $logs->update();
+                break;
+        }
+        return response()->redirectTo(url()->previous());
     }
 
     /**
