@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @var Classes class
  * @var \DateTime start_time
- * @var \DateTime end_time
+ * @var \DateTime|null end_time
  * @property-read \App\Models\Classes|null $class
  * @method static \Illuminate\Database\Eloquent\Builder|ClassesLog newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ClassesLog newQuery()

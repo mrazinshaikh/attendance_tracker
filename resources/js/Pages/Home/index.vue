@@ -38,10 +38,10 @@
                         <td>{{ entries.name }}</td>
                         <td>
                             <div class="flex gap-x-4">
-                                <button class="text-sm bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 font-semibold rounded">
+                                <button v-if="entries.logs.length === 0" @click.prevent="logAction(entries.id, 'login')" class="text-sm bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 font-semibold rounded">
                                     LogIn
                                 </button>
-                                <button class="text-sm bg-red-500 hover:bg-red-800 text-white px-4 py-2 font-semibold rounded">
+                                <button v-else @click.prevent="logAction(entries.id, 'logoff')" class="text-sm bg-red-500 hover:bg-red-800 text-white px-4 py-2 font-semibold rounded">
                                     LogOff
                                 </button>
                             </div>
@@ -75,6 +75,18 @@ export default {
     AppLayout,
     Pagination,
   },
+  methods: {
+    logAction(ID, action){
+        const data = {
+            'action': action,
+            '_method': 'PUT',
+        };
+        this.$inertia.post(
+            route('classes.update', ID),
+            data,
+        );
+    }
+  }
 };
 </script>
 
