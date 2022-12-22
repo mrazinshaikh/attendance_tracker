@@ -37,7 +37,10 @@
                         <td>{{ entries.id }}</td>
                         <td>{{ entries.name }}</td>
                         <td>
-                            <div class="flex gap-x-4">
+                            <div class="flex gap-x-4 items-center">
+                                <div class="p-2 w-max h-max border rounded-lg border-gray-300 cursor-pointer" @click.stop="showLogs(entries.id)">
+                                    <img class="w-4 m-auto my-auto" src="../../../icons/list-dropdown.svg" alt="list">
+                                </div>
                                 <button v-if="entries.logs.length === 0" @click.prevent="logAction(entries.id, 'login')" class="text-sm bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 font-semibold rounded">
                                     LogIn
                                 </button>
@@ -52,6 +55,35 @@
         </div>
         <Pagination class="mt-6" :links="classes.links" />
     </div>
+    <transition>
+        <div v-if="showLogsPopup" class="fixed inset-0 bg-black/50 overflow-y-auto scroll-bar-sm">
+            <div class="mt-16 mb-6 bg-white border border-gray-300 rounded w-full max-w-5xl mx-auto" v-click-outside="() => { showLogsPopup = false }">
+                <div class="popup-close" @click="showLogsPopup = false"></div>
+                <table class="table-auto w-full text-left">
+                    <thead class="bg-white border-b">
+                        <th>#</th>
+                        <th>LogIn Time</th>
+                        <th>LogOff Time</th>
+                    </thead>
+                    <tbody v-if="popupClassLogs.length > 0">
+                        <tr
+                            v-for="(log, index) in popupClassLogs"
+                            :key="index"
+                        >
+                            <td>#{{ log.id }}</td>
+                            <td>{{ log.start_time }}</td>
+                            <td>{{ log.end_time ?? '-' }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot v-else>
+                        <tr>
+                            <td colspan="3">No Logs Found</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </transition>
   </AppLayout>
 </template>
 
@@ -75,6 +107,12 @@ export default {
     AppLayout,
     Pagination,
   },
+  data() {
+    return {
+        showLogsPopup: false,
+        popupClassLogs: {},
+    }
+  },
   methods: {
     logAction(ID, action){
         const data = {
@@ -85,6 +123,11 @@ export default {
             route('classes.update', ID),
             data,
         );
+    },
+    async showLogs(entryId) {
+        const req = await this.axios.get(route('getClassLogs',{'classes':entryId}));
+        this.popupClassLogs = req.data;
+        this.showLogsPopup = true;
     }
   }
 };
@@ -93,5 +136,14 @@ export default {
 <style scoped>
     table th,td{
         @apply  p-3;
+    }
+    .popup-close{
+        @apply block relative cursor-pointer;
+    }
+    .popup-close::after{
+        content: '';
+        background-image: url("../../../icons/cross.svg");
+        background-size:  10px;
+        @apply absolute right-0 -top-5 w-5 h-5 bg-white bg-no-repeat bg-center rounded-t-sm ;
     }
 </style>
