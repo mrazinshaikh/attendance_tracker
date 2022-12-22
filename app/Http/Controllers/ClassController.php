@@ -17,14 +17,24 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $lists = Classes::with(['logs' => function($query) {
+        $lists = Classes::with(['logs' => function ($query) {
             /** @var \Illuminate\Database\Eloquent\Builder $query */
-            return $query->select('id','class_id')->whereNull('end_time');
+            return $query->select('id', 'class_id')->whereNull('end_time');
         }])->paginate(5);
 
         return Inertia::render('Home/index', [
             'classes' => $lists,
         ]);
+    }
+
+    public function getLogs(Request $request, Classes $classes)
+    {
+        $logs = $classes->logs()
+            ->orderByRaw('(end_time IS NULL) DESC')
+            ->orderBy('end_time', 'DESC')
+            ->limit(10)
+            ->get();
+        return $logs;
     }
 
     /**
@@ -79,7 +89,7 @@ class ClassController extends Controller
      */
     public function update(Request $request, Classes $classes)
     {
-        switch($request->get('action')){
+        switch ($request->get('action')) {
             case 'login':
                 $log = new Log();
                 $classes->logs()->create([$log]);

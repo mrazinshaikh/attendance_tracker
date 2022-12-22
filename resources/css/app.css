@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    @apply !mb-0;
+}
+
+.scroll-bar-sm::-webkit-scrollbar-track
+{
+    @apply bg-[#F5F5F5];
+}
+
+.scroll-bar-sm::-webkit-scrollbar
+{
+    @apply w-2 bg-[#F5F5F5];
+}
+
+.scroll-bar-sm::-webkit-scrollbar-thumb
+{
+    @apply rounded-lg bg-[#dddddd];
+}
