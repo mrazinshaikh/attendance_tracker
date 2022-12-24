@@ -9,7 +9,9 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import ClickOutside from './plugins/click-outside';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import mitt from 'mitt'
 
+const emitter = mitt();
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -21,6 +23,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(VueAxios, axios)
+            .provide('emitter', emitter)
             .directive('click-outside', ClickOutside)
             .mount(el);
     },
