@@ -11,6 +11,9 @@
             >
                 <div>{{ entries.name }}</div>
                 <div class="flex gap-x-4 mt-3">
+                    <div class="p-2 w-max h-max border rounded-lg border-gray-300 cursor-pointer" @click.stop="showLogs(entries.id)">
+                        <img class="w-4 m-auto my-auto" src="../../../icons/list-dropdown.svg" alt="list">
+                    </div>
                     <button class="text-sm bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 font-semibold rounded">
                         LogIn
                     </button>
@@ -57,7 +60,7 @@
     </div>
     <transition>
         <div v-if="showLogsPopup" class="fixed inset-0 bg-black/50 overflow-y-auto scroll-bar-sm">
-            <div class="mt-16 mb-6 bg-white border border-gray-300 rounded w-full max-w-5xl mx-auto" v-click-outside="() => { showLogsPopup = false }">
+            <div class="mt-16 mb-6  bg-white border border-gray-300 rounded w-11/12 max-w-5xl mx-auto" v-click-outside="() => { showLogsPopup = false }">
                 <div class="popup-close" @click="showLogsPopup = false"></div>
                 <table class="table-auto w-full text-left">
                     <thead class="bg-white border-b">

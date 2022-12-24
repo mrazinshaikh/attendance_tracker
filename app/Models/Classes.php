@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Classes
@@ -26,6 +26,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Classes whereStopIn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Classes whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Log[] $logs
+ * @property-read int|null $logs_count
+ * @property \App\Models\User $user
+ * @method static \Database\Factories\ClassesFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Classes whereUserId($value)
  */
 class Classes extends Model
 {
@@ -40,5 +45,10 @@ class Classes extends Model
     public function logs()
     {
         return $this->hasMany(Log::class, 'class_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

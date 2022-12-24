@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classes;
-use App\Models\Log;
 use DateTime;
-use Illuminate\Http\Request;
+use App\Models\Log;
 use Inertia\Inertia;
+use App\Models\Classes;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClassController extends Controller
 {
@@ -17,7 +18,9 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $lists = Classes::with(['logs' => function ($query) {
+        /** @var User $user */
+        $user = Auth::user();
+        $lists = $user->classes()->with(['logs' => function ($query) {
             /** @var \Illuminate\Database\Eloquent\Builder $query */
             return $query->select('id', 'class_id')->whereNull('end_time');
         }])->paginate(5);
