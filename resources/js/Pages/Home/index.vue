@@ -67,8 +67,9 @@
                         <th>#</th>
                         <th>LogIn Time</th>
                         <th>LogOff Time</th>
+                        <th>Actual</th>
                     </thead>
-                    <tbody v-if="popupClassLogs.length > 0">
+                    <tbody v-if="popupClassLogs.length > 0" class="text-xs sm:text-base">
                         <tr
                             v-for="(log, index) in popupClassLogs"
                             :key="index"
@@ -76,6 +77,7 @@
                             <td>#{{ log.id }}</td>
                             <td>{{ log.start_time }}</td>
                             <td>{{ log.end_time ?? '-' }}</td>
+                            <td>{{ log.time_diff ?? '-' }}</td>
                         </tr>
                     </tbody>
                     <tfoot v-else>

@@ -42,6 +42,15 @@ class Log extends Model
         'end_time',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'time_diff',
+    ];
+
     public function classes()
     {
         return $this->belongsTo(Classes::class, 'class_id', 'id');
@@ -58,6 +67,31 @@ class Log extends Model
     {
         return Attribute::make(
             get: fn ($value) => Carbon::make($value)?->format('Y-m-d H:i:s'),
+        );
+    }
+
+    protected function timeDiff(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if (is_null($this->end_time)) return null;
+                $finalValue = '';
+                $hour = Carbon::make($this->start_time)->diffInHours(Carbon::make($this->end_time));
+                if ((bool) $hour !== false) {
+                    $finalValue .= $hour . ' Hour ';
+                }
+                $min = Carbon::make($this->start_time)->diff(Carbon::make($this->end_time))->format('%I');
+                if ((bool) $min !== false) {
+                    $finalValue .= $min . ' Minutes ';
+                }
+                $sec = Carbon::make($this->start_time)->diff(Carbon::make($this->end_time))->format('%S');
+
+                if ((bool) $hour === false) {
+                    $finalValue .= $sec . ' Seconds ';
+                }
+
+                return $finalValue;
+            }
         );
     }
 }
