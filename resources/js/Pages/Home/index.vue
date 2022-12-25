@@ -69,6 +69,8 @@ import Pagination from "@/Components/Pagination.vue";
 import LogsPopup from "@/Components/Shared/LogsPopup.vue";
 import { defineComponent } from "@vue/runtime-core";
 import { defineProps, inject } from "vue";
+import { Inertia } from '@inertiajs/inertia'
+
 
 defineComponent({
   AppLayout,
@@ -94,7 +96,7 @@ function logAction(ID, action) {
     action: action,
     _method: "PUT",
   };
-  this.$inertia.post(route("classes.update", ID), data, {
+  Inertia.post(route("classes.update", ID), data, {
     preserveScroll: true,
   });
 }
