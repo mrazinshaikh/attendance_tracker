@@ -89,9 +89,6 @@ defineProps({
 
 const emitter = inject('emitter');
 
-console.log('%cINDEX', 'color: #00ff00;font-size: 20px;');
-console.log(emitter);
-
 function logAction(ID, action) {
   const data = {
     action: action,
