@@ -39,4 +39,6 @@ Route::middleware([
     Route::get('/',[ClassController::class,'index'])->name('classes.index');
     Route::put('/{classes}',[ClassController::class,'update'])->name('classes.update');
     Route::get('{classes}/logs',[ClassController::class,'getLogs'])->name('getClassLogs');
+
+    Route::post('/',[ClassController::class,'store'])->name('classes.store');
 });

@@ -1,7 +1,26 @@
 <template>
   <AppLayout title="Dashboard">
     <div class="w-11/12 max-w-7xl mx-auto mt-5">
-        <div class="text-2xl pb-6 font-medium">Welcome, <span class="font-semibold">{{ user.name }}</span></div>
+        <div class="flex flex-row justify-between items-center pb-6">
+            <div class="text-2xl font-medium">Welcome, <span class="font-semibold">{{ user.name }}</span></div>
+            <div>
+                <button
+                    class="px-4 py-2 text-white bg-indigo-500"
+                    @click.stop="emitter.emit('class:create')"
+                >
+                <span class="hidden md:block">
+                    Add New
+                </span>
+                <span class="block md:hidden">
+                    <img
+                        class="w-4 invert"
+                        src="../../../icons/plus.svg"
+                        alt="close"
+                    />
+                </span>
+                </button>
+            </div>
+        </div>
 
         <div class="lg:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div
@@ -60,6 +79,7 @@
     </div>
 
     <LogsPopup />
+    <ClassForm />
   </AppLayout>
 </template>
 
@@ -67,6 +87,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import LogsPopup from "@/Components/Shared/LogsPopup.vue";
+import ClassForm from "@/Components/Shared/ClassForm.vue";
 import { defineComponent } from "@vue/runtime-core";
 import { defineProps, inject } from "vue";
 import { Inertia } from '@inertiajs/inertia'
@@ -76,6 +97,7 @@ defineComponent({
   AppLayout,
   Pagination,
   LogsPopup,
+  ClassForm,
 });
 
 defineProps({

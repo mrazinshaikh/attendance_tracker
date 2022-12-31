@@ -32,6 +32,7 @@ return [
         'verification.send',
         'classes.index',
         'getClassLogs',
-        'classes.update'
+        'classes.update',
+        'classes.store'
     ]
 ];

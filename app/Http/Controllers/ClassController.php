@@ -6,6 +6,7 @@ use DateTime;
 use App\Models\Log;
 use Inertia\Inertia;
 use App\Models\Classes;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,7 +59,15 @@ class ClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required|max:2050',
+            'stopIn' => 'nullable|numeric',
+        ]);
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        $rsp = $authUser->classes()->create($validated);
+        return response()->redirectToRoute('classes.index');
     }
 
     /**
