@@ -22,7 +22,10 @@
             </div>
         </div>
 
-        <div class="lg:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div
+            v-if="device.mobile"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+        >
             <div
                 v-for="(entries, index) in classes.data"
                 :key="index"
@@ -42,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="hidden lg:block">
+        <div v-else>
             <table class="table-auto w-full text-left">
                 <thead class="bg-white border-b">
                     <th>#</th>
@@ -89,9 +92,9 @@ import Pagination from "@/Components/Pagination.vue";
 import LogsPopup from "@/Components/Shared/LogsPopup.vue";
 import ClassForm from "@/Components/Shared/ClassForm.vue";
 import { defineComponent } from "@vue/runtime-core";
-import { defineProps, inject } from "vue";
-import { Inertia } from '@inertiajs/inertia'
-
+import { inject } from "vue";
+import { Inertia } from '@inertiajs/inertia';
+import { useDevice } from "next-vue-device-detector";
 
 defineComponent({
   AppLayout,
@@ -112,6 +115,7 @@ defineProps({
 });
 
 const emitter = inject('emitter');
+const device = useDevice();
 
 function logAction(ID, action) {
   const data = {
