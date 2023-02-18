@@ -10,8 +10,10 @@ import ClickOutside from "./plugins/click-outside";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import mitt from "mitt";
+import { createDeviceDetector } from "next-vue-device-detector";
 
 const emitter = mitt();
+export const device = createDeviceDetector()
 
 const appName = window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
 
@@ -23,6 +25,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(VueAxios, axios)
+            .use(device)
             .provide("emitter", emitter)
             .directive("click-outside", ClickOutside)
             .mount(el);
