@@ -8,6 +8,8 @@
 </p>
 
 # Attendance Tracker
+1. Created Using Jetstream starter kit
+![Alt text](readme/home.png)
 
 ### To generate PDPDocs for Laravel Facades 
 `php artisan ide-helper:generate`
