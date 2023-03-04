@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\LogController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,9 +37,11 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/',[ClassController::class,'index'])->name('classes.index');
-    Route::put('/{classes}',[ClassController::class,'update'])->name('classes.update');
-    Route::get('{classes}/logs',[ClassController::class,'getLogs'])->name('getClassLogs');
+    Route::get('/', [ClassController::class, 'index'])->name('classes.index');
+    Route::put('/{classes}', [ClassController::class, 'update'])->name('classes.update');
+    Route::post('{classes}/logs', [ClassController::class, 'getLogs'])->name('getClassLogs');
 
-    Route::post('/',[ClassController::class,'store'])->name('classes.store');
+    Route::post('/', [ClassController::class, 'store'])->name('classes.store');
+
+    Route::get('{classes}/log', [LogController::class, 'index'])->name('log.index');
 });

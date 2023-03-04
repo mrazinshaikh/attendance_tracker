@@ -10,10 +10,10 @@
             >
                 <div class="popup-close" @click="showLogsPopup = false"></div>
                 <table class="table-auto w-full text-left">
-                    <thead class="bg-white border-b">
+                    <thead class="bg-white border-b text-sm">
                         <th>#</th>
-                        <th>LogIn Time</th>
-                        <th>LogOff Time</th>
+                        <th>LogIn</th>
+                        <th>LogOff</th>
                         <th>Actual</th>
                     </thead>
                     <tbody
@@ -29,7 +29,14 @@
                     </tbody>
                     <tfoot v-else>
                         <tr>
-                            <td colspan="3">No Logs Found</td>
+                            <td colspan="4">No Logs Found</td>
+                        </tr>
+                    </tfoot>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-right">
+                                <Link :href="route('log.index', {classes: classId})">View All</Link>
+                            </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -41,15 +48,19 @@
 <script setup>
 import axios from "axios";
 import { ref, onMounted, inject } from "vue";
+import { Link } from '@inertiajs/inertia-vue3';
+
 //   name: "LogsPopup",
 const showLogsPopup = ref(false);
 const popupClassLogs = ref({});
 const emitter = inject("emitter");
+const classId = ref('');
 
 onMounted(() => {
-    emitter.on("class:showLogs", async (classId) => {
-        const req = await axios.get(
-            route("getClassLogs", { classes: classId })
+    emitter.on("class:showLogs", async (class_id) => {
+        classId.value = class_id;
+        const req = await axios.post(
+            route("getClassLogs", { classes: class_id }, {method: 'POST'})
         );
         popupClassLogs.value = req.data;
         showLogsPopup.value = true;

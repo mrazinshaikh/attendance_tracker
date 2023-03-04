@@ -33,6 +33,7 @@ return [
         'classes.index',
         'getClassLogs',
         'classes.update',
-        'classes.store'
+        'classes.store',
+        'log.index',
     ]
 ];
